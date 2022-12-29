@@ -1,26 +1,29 @@
+import { LatLng } from 'leaflet';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-type Data = {
+type TElevationData = {
   elevation: number;
 };
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>,
+  res: NextApiResponse<TElevationData>,
 ) {
   // Set position and initial elevation values
-  const position = JSON.parse(req.body);
+  const position: LatLng = JSON.parse(req.body);
   let elevation: number = 0;
 
   // Build URL to for fetching elevation of the current position
-  const url = `https://api.opentopodata.org/v1/test-dataset?locations=${position?.lat},${position?.lng}`;
+  const url = `https://api.opentopodata.org/v1/test-dataset?locations=${position.lat},${position.lng}`;
 
   const response = await fetch(url);
   const result = await response.json();
 
-  if (result) {
+  if (result.results) {
     elevation = result.results[0].elevation;
   }
+
+  console.log('final elevation: ', elevation);
 
   res.status(200).json({ elevation });
   res.end();
