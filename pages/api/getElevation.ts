@@ -5,7 +5,7 @@ type TElevationData = {
   elevation: number;
 };
 
-export default async function handler(
+export default async function getElevation(
   req: NextApiRequest,
   res: NextApiResponse<TElevationData>,
 ) {
@@ -22,8 +22,6 @@ export default async function handler(
   if (result.results) {
     elevation = result.results[0].elevation;
   }
-
-  console.log('final elevation: ', elevation);
 
   res.status(200).json({ elevation });
   res.end();

@@ -1,10 +1,10 @@
 import { MapContainer, TileLayer } from 'react-leaflet';
-import LocationMarker from './components/locationMarker';
+import LocationMarker from './components/LocationMarker';
 
 export default function Map() {
   return (
     <MapContainer
-      center={[51.505, -0.09]}
+      center={[48.20849, 16.37208]}
       zoom={13}
       scrollWheelZoom={false}
       style={{ height: '100vh', width: '100vw' }}

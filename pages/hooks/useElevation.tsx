@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 
 export default function useElevation(position: LatLng | null) {
   const [elevation, setElevation] = useState<number>(0);
-  console.log('useElevation - position: ', position);
 
   useEffect(() => {
     async function fetchData() {
@@ -18,8 +17,6 @@ export default function useElevation(position: LatLng | null) {
       fetchData();
     }
   });
-
-  console.log('useElevation - elevation: ', elevation);
 
   return elevation;
 }
