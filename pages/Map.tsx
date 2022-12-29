@@ -1,8 +1,9 @@
 import { Inter } from '@next/font/google';
 import { LatLng } from 'leaflet';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import LocationMarker from './components/locationMarker';
+import useElevation from './hooks/useElevation';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -30,30 +31,15 @@ export default function Map() {
 
 function MyComponent() {
   const [position, setPosition] = useState<LatLng | null>(null);
-  const [currentElevation, setCurrentElevation] = useState<number>();
+  const elevation = useElevation(position as LatLng);
 
   const map = useMapEvents({
     click(e) {
       console.log('click: ', e.latlng);
       setPosition(e.latlng);
       map.flyTo(e.latlng, map.getZoom());
-
-      // map.setView(map.getCenter());
     },
   });
 
-  useEffect(() => {
-    console.log('new position: ', position);
-    async function fetchData() {
-      const response = await fetch('/api/getElevation', {
-        method: 'POST',
-        body: JSON.stringify(position),
-      });
-      const result = await response.json();
-      setCurrentElevation(result.elevation);
-    }
-    fetchData();
-  }, [position, currentElevation]);
-
-  return <LocationMarker position={position} elevation={currentElevation} />;
+  return <LocationMarker position={position} elevation={elevation} />;
 }
