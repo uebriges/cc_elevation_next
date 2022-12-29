@@ -1,11 +1,11 @@
 import { LatLng } from 'leaflet';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Marker, Tooltip, useMapEvents } from 'react-leaflet';
 import useElevation from '../hooks/useElevation';
 
 export default function LocationMarker() {
   const [position, setPosition] = useState<LatLng | null>(null);
-  const elevation = useElevation(position as LatLng);
+  const elevation = useElevation(position);
 
   const map = useMapEvents({
     click(e) {
